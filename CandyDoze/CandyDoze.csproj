@@ -75,7 +75,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\CandyDestroy.cs" />
     <Compile Include="Assets\Scripts\Pusher.cs" />
+    <Compile Include="Assets\Scripts\Shooter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
