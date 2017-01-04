@@ -13,8 +13,8 @@ public class Shooter : MonoBehaviour {
     public int SphereCandyProbability;
     //게임상 길이
     public float baseWidth;
-    //부모객체
-    public GameObject candyHolder;
+    //부모객체,CandyHolder Class
+    public CandyHolder candyHolder;
 	// Use this for initialization
 	void Start () {
 		
@@ -28,6 +28,8 @@ public class Shooter : MonoBehaviour {
 	}
     private void Shot()
     {
+        if (candyHolder.GetCandyAmount() <= 0)
+            return;
         GameObject candy = SampleCandy();
         if (candy != null)
         {
@@ -37,6 +39,8 @@ public class Shooter : MonoBehaviour {
             //Rigibody에 힘과 토크를 줌
             candyRigibody.AddForce(transform.forward * shotSpeed);
             candyRigibody.AddTorque(new Vector3(0, shotTorque, 0));
+            //캔디 갯수 감소
+            candyHolder.ConsumeCandy();
         }
     }
     //랜덤한 캔디를 반환해줌
