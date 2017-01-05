@@ -5,6 +5,9 @@ using UnityEngine;
 public class PointZone : MonoBehaviour {
 
     private int point = 0;
+    public GameObject effectPrefab;
+    public Vector3 effectRotation;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -20,6 +23,11 @@ public class PointZone : MonoBehaviour {
         {
             Destroy(other.gameObject);
             point++;
+
+            if(effectPrefab!=null)
+            {
+                Instantiate(effectPrefab, other.transform.position, Quaternion.Euler(effectRotation));
+            }
         }
     }
     void OnGUI()

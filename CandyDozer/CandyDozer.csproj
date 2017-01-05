@@ -75,11 +75,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AutoDestroyEffect.cs" />
     <Compile Include="Assets\Scripts\CandyDestroy.cs" />
     <Compile Include="Assets\Scripts\CandyHolder.cs" />
     <Compile Include="Assets\Scripts\PointZone.cs" />
     <Compile Include="Assets\Scripts\Pusher.cs" />
     <Compile Include="Assets\Scripts\Shooter.cs" />
+    <Compile Include="Assets\StarParticleControl.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
