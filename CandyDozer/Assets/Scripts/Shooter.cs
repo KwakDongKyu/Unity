@@ -20,10 +20,11 @@ public class Shooter : MonoBehaviour {
     private int counter = shotCounter;
     //슛 갯수 회복 시간
     public int recoverSeconds = 3;
-
+    //사운드 객체
+    private AudioSource shotSound;
 	// Use this for initialization
 	void Start () {
-		
+        shotSound = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -59,6 +60,8 @@ public class Shooter : MonoBehaviour {
             candyHolder.ConsumeCandy();
             //횟수 감소
             ConsumeCount();
+            //소리 재생
+            shotSound.Play();
         }
     }
     //랜덤한 캔디를 반환해줌
