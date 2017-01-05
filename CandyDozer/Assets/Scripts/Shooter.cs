@@ -15,6 +15,12 @@ public class Shooter : MonoBehaviour {
     public float baseWidth;
     //부모객체,CandyHolder Class
     public CandyHolder candyHolder;
+    //슛갯수
+    const int shotCounter = 5;
+    private int counter = shotCounter;
+    //슛 갯수 회복 시간
+    public int recoverSeconds = 3;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -24,11 +30,21 @@ public class Shooter : MonoBehaviour {
 	void Update () {
 
         if (Input.GetButtonDown("Fire1"))
-            Shot();	
+            Shot();
 	}
+    public void ConsumeCount()
+    {
+        counter--;
+        StartCoroutine(RecoverCount());
+    }
+    IEnumerator RecoverCount()
+    {
+        yield return new WaitForSeconds(recoverSeconds);
+        counter++;
+    }
     private void Shot()
     {
-        if (candyHolder.GetCandyAmount() <= 0)
+        if (candyHolder.GetCandyAmount() <= 0||counter<=0)
             return;
         GameObject candy = SampleCandy();
         if (candy != null)
@@ -41,6 +57,8 @@ public class Shooter : MonoBehaviour {
             candyRigibody.AddTorque(new Vector3(0, shotTorque, 0));
             //캔디 갯수 감소
             candyHolder.ConsumeCandy();
+            //횟수 감소
+            ConsumeCount();
         }
     }
     //랜덤한 캔디를 반환해줌
@@ -66,5 +84,14 @@ public class Shooter : MonoBehaviour {
     {
         float x = baseWidth * (Input.mousePosition.x / Screen.width) - (baseWidth / 2);
         return transform.position + new Vector3(x, 0, 0);
+    }
+    private void OnGUI()
+    {
+        GUI.color = Color.black;
+
+        string label = "";
+        for (int i = 0; i < counter; i++)
+            label += "+";
+        GUI.Label(new Rect(0, 15, 100, 30), label);
     }
 }
