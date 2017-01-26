@@ -5,27 +5,26 @@ using UnityEngine;
 public class SimpleTowerController : MonoBehaviour {
     private GameObject target;
     private Animator animator;
-    private Transform child;
-    public GameObject tower;
+    private TowerInformation info;
+    
 	// Use this for initialization
-	void Start () {
-        animator = tower.GetComponent<Animator>();
-        child = tower.GetComponentsInChildren<Transform>()[1];
+	void Start ()
+    {
+        animator = GetComponent<Animator>();
+        info = GetComponent<TowerInformation>();
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         if (target != null)
         {
-            child.LookAt(target.transform);
-            child.transform.Rotate(-90, 0, 0);
-            Shoot();
+            transform.LookAt(target.transform);
         }
         else
         {
-            animator.SetBool("targeting", false);
+            animator.SetBool("target", false);
         }
-
 	}
     private void OnTriggerEnter(Collider other)
     {
@@ -34,7 +33,8 @@ public class SimpleTowerController : MonoBehaviour {
         {
             //타겟 지정
             target = other.gameObject;
-            animator.SetBool("targeting", true);
+            animator.SetBool("target", true);
+            StartCoroutine(Shoot());
         }
     }
     private void OnTriggerExit(Collider other)
@@ -52,10 +52,20 @@ public class SimpleTowerController : MonoBehaviour {
         if(target==null&&other.tag=="Creature")
         {
             target = other.gameObject;
+            StartCoroutine(Shoot());
         }
     }
-    private void Shoot()
+    private IEnumerator Shoot()
     {
-        Debug.Log("Shoot!!!!");
+        GameObject originTarget = target;
+        int deb = 0;
+        while(originTarget==target)
+        {
+            animator.SetTrigger("shoot");
+
+            Debug.Log("Shoot!!" + (++deb).ToString());
+
+            yield return new WaitForSeconds(1 / info.attackPerSec);
+        }
     }
 }
